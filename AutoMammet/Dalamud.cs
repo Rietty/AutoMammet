@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
@@ -21,6 +16,7 @@ namespace AutoMammet;
 
 public class Dalamud
 {
+    // Thanks to Otter!
     public static void Initialize(DalamudPluginInterface pluginInterface)
         => pluginInterface.Create<Dalamud>();
 

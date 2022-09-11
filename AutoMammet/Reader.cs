@@ -2,20 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Dalamud.Game.Command;
-using Dalamud.IoC;
 using Dalamud.Plugin;
-using System.IO;
 using System.Reflection;
-using Dalamud.Interface.Windowing;
-using AutoMammet.Windows;
 using Dalamud.Utility.Signatures;
 using Lumina.Excel.GeneratedSheets;
 using Lumina.Excel;
 
 namespace AutoMammet
 {
+    // Code from Otter, just slight changes to fix warnings/get it plugin ready.
     public class Reader
     {
         [Signature("E8 ?? ?? ?? ?? 8B 50 10")]

@@ -4,7 +4,6 @@ using System.Numerics;
 using System.Text;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using ImGuiScene;
 
 namespace AutoMammet.Windows;
 
@@ -31,7 +30,8 @@ public class MainWindow : Window, IDisposable
         this.supplyMapping = new Dictionary<string, int>();
         this.shiftMapping = new Dictionary<string, int>();
 
-        // Add onto dictionary for our values.
+        // Add onto dictionary for our values. This is set for the supply worksheet and since we never go to surplus or overflowing until user changes stuff around, we can just have same value.
+        // In the future this can be set up to go from 0 to 5 if need be, but I don't anticpate it being an issue.
         supplyMapping["Overflowing"]    = 2;
         supplyMapping["Surplus"]        = 2;
         supplyMapping["Sufficient"]     = 2;
@@ -47,7 +47,6 @@ public class MainWindow : Window, IDisposable
 
     public void Dispose()
     {
-        // this.GoatImage.Dispose();
     }
 
     public override void Draw()

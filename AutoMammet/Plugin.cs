@@ -1,8 +1,6 @@
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using System.IO;
-using System.Reflection;
 using Dalamud.Interface.Windowing;
 using AutoMammet.Windows;
 
@@ -31,11 +29,6 @@ namespace AutoMammet
             Reader reader = new Reader(this.PluginInterface);
             WindowSystem.AddWindow(new MainWindow(this, reader));
 
-            this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
-            {
-                HelpMessage = "Shows a simple pop-up window for our plugin!"
-            });
-
             this.PluginInterface.UiBuilder.Draw += DrawUI;
 
         }
@@ -43,7 +36,6 @@ namespace AutoMammet
         public void Dispose()
         {
             this.WindowSystem.RemoveAllWindows();
-            this.CommandManager.RemoveHandler(CommandName);
         }
 
         private void OnCommand(string command, string args)
@@ -54,11 +46,6 @@ namespace AutoMammet
         private void DrawUI()
         {
             this.WindowSystem.Draw();
-        }
-
-        public void DrawConfigUI()
-        {
-            WindowSystem.GetWindow("AutoMammet Configuration Window").IsOpen = true;
         }
     }
 }
