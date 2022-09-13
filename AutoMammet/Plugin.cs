@@ -29,6 +29,11 @@ namespace AutoMammet
             Reader reader = new Reader(this.PluginInterface);
             WindowSystem.AddWindow(new MainWindow(this, reader));
 
+            this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
+            {
+                HelpMessage = "Open up the exporting UI/Interface."
+            });
+
             this.PluginInterface.UiBuilder.Draw += DrawUI;
 
         }
@@ -36,6 +41,7 @@ namespace AutoMammet
         public void Dispose()
         {
             this.WindowSystem.RemoveAllWindows();
+            this.CommandManager.RemoveHandler(CommandName);
         }
 
         private void OnCommand(string command, string args)
