@@ -13,8 +13,6 @@ Make sure this matches in the plugin if you display the extracted table. You can
 
 ![image](https://user-images.githubusercontent.com/35241556/189504936-57abfb9e-4934-45ac-a02a-c10d26dfea75.png)	
 
-Finally, after exporting simply go to Google Sheets or Excel and paste it there using the CSV option.	
+Finally, after exporting simply go to Google Sheets or Excel and paste it there.
 
-![image](https://user-images.githubusercontent.com/35241556/189504946-aa60706e-9012-4ab9-9a67-a490478c916a.png)	
-
-And you're done!	
+Happy Crafting!
