@@ -9,7 +9,7 @@ Usage is very straightforward, simply install/enable the plugin and then go to y
 
 ![image](https://user-images.githubusercontent.com/35241556/189504909-e432dc65-010f-45d7-b04d-3fb5fcf29f59.png)	
 
-Make sure this matches in the plugin if you display the extracted table. You can then export the columns as desired. Make sure to check the second box if you would like the values to be their Text, else it will use numbers -2 to 2 instead.	
+Make sure this matches in the plugin if you display the extracted table. You can then export the columns as desired. Make sure to check the second box if you would like the values to be their Text, else it will use numbers -2 to 2 instead.	This is configurable via a JSON file.
 
 ![image](https://user-images.githubusercontent.com/35241556/189504936-57abfb9e-4934-45ac-a02a-c10d26dfea75.png)	
 
