@@ -3,7 +3,7 @@ Provides an easy copy and pastable CSV format you can use for island sanctuary s
 
 Can use the `/mammet` command to bring up the main window.	
 
-![image](https://user-images.githubusercontent.com/35241556/189504921-3bd3bb8b-4b66-49a6-9b4c-61895e1903f2.png)	
+![image](https://user-images.githubusercontent.com/35241556/190194570-92bb5b20-d435-4903-81ca-f39a3a55fc36.png)
 
 Usage is very straightforward, simply install/enable the plugin and then go to your island. Review your workshop supply and demand in order to load/grab the latest values on the information screen.	
 
