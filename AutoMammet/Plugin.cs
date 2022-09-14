@@ -3,6 +3,7 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Interface.Windowing;
 using AutoMammet.Windows;
+using System.IO;
 
 namespace AutoMammet
 {
@@ -26,8 +27,10 @@ namespace AutoMammet
             this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             this.Configuration.Initialize(this.PluginInterface);
 
-            Reader reader = new Reader(this.PluginInterface);
-            WindowSystem.AddWindow(new MainWindow(this, reader));
+            string valueMappingPath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "AutoMammetValueMapping.json");
+
+            Reader reader = new Reader(this.PluginInterface, this);
+            WindowSystem.AddWindow(new MainWindow(this, reader, valueMappingPath));
 
             this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {

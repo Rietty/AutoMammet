@@ -1,0 +1,12 @@
+{
+    "Overflowing": 4,
+    "Surplus": 3,
+    "Sufficient": 2,
+    "Insufficient": 1,
+    "Nonexistent": 0,
+    "Skyrocketing": 2,
+    "Increasing": 1,
+    "None": 0,
+    "Decreasing": -1,
+    "Plummeting": -2
+}

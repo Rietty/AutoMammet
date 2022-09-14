@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using System.Text;
+using Dalamud;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using Newtonsoft.Json;
 
 namespace AutoMammet.Windows;
 
@@ -12,10 +15,9 @@ public class MainWindow : Window, IDisposable
     private Reader reader;
     private Plugin plugin;
     private Configuration config;
-    Dictionary<string, int> supplyMapping;
-    Dictionary<string, int> shiftMapping;
+    Dictionary<string, int> wordMapping = null;
 
-    public MainWindow(Plugin plugin, Reader reader) : base(
+    public MainWindow(Plugin plugin, Reader reader, string valueMappingPath) : base(
         "AutoMammet - Felicitous Furball!", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse | ImGuiWindowFlags.AlwaysAutoResize)
     {
         this.SizeConstraints = new WindowSizeConstraints
@@ -27,26 +29,40 @@ public class MainWindow : Window, IDisposable
         this.reader = reader;
         this.plugin = plugin;
         this.config = plugin.Configuration;
-        this.supplyMapping = new Dictionary<string, int>();
-        this.shiftMapping = new Dictionary<string, int>();
 
-        // Add onto dictionary for our values. This is set for the supply worksheet and since we never go to surplus or overflowing until user changes stuff around, we can just have same value.
-        // In the future this can be set up to go from 0 to 5 if need be, but I don't anticpate it being an issue.
-        supplyMapping["Overflowing"]    = 2;
-        supplyMapping["Surplus"]        = 2;
-        supplyMapping["Sufficient"]     = 2;
-        supplyMapping["Insufficient"]   = 1;
-        supplyMapping["Nonexistent"]    = 0;
-
-        shiftMapping["Skyrocketing"]    = 2;
-        shiftMapping["Increasing"]      = 1;
-        shiftMapping["None"]            = 0;
-        shiftMapping["Decreasing"]      = -1;
-        shiftMapping["Plummeting"]      = -2;
+        this.wordMapping = JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(valueMappingPath));
     }
 
     public void Dispose()
     {
+        Dalamud.ClientState.ClientLanguage.ToString();
+    }
+
+    public String ColumnBuilder(String[] input, int idx, char delimiter, char sep, bool lookup)
+    {
+        var sb = new StringBuilder();
+        foreach (string words in input)
+        {
+            int index = 0;
+            foreach (string word in words.Split(delimiter))
+            {
+                if (index == idx)
+                {
+                    if(lookup == true)
+                    {
+                        sb.Append(wordMapping[word].ToString() + sep);
+                    } 
+                    else
+                    {
+                        sb.Append(word + sep);
+                    }
+                    
+                }
+                index += 1;
+            }
+        }
+
+        return sb.ToString();
     }
 
     public override void Draw()
@@ -60,94 +76,74 @@ public class MainWindow : Window, IDisposable
 
         var viewTableValue = this.config.ViewDataInTable;
 
-        if (ImGui.Checkbox("Display Extracted Table? ", ref viewTableValue))
+        if (ImGui.Checkbox("Display Extracted Table?", ref viewTableValue))
         {
             this.config.ViewDataInTable = viewTableValue;
             this.config.Save();
         }
 
         ImGui.SameLine();
+
         var exportTextVersionValue = this.config.ExportTextVersion;
 
-        if (ImGui.Checkbox("Export Supply/Shift w/ Text? ", ref exportTextVersionValue))
+        if (ImGui.Checkbox("Export Supply/Shift w/ Text?", ref exportTextVersionValue))
         {
             this.config.ExportTextVersion = exportTextVersionValue;
             this.config.Save();
+        }
+
+        ImGui.SameLine();
+        ImGui.SetNextItemWidth(87);
+
+        string[] languages = { "ja", "en", "de", "fr" };
+
+        if (ImGui.BeginCombo("Language", languages[this.config.ExportLanguage]))
+        {
+            for (int i = 0; i < languages.Length; i++)
+            {
+                if (ImGui.Selectable(languages[i]))
+                {
+                    this.config.ExportLanguage = i;
+                    this.config.Save();
+                }
+            }
+            ImGui.EndCombo();
         }
 
         ImGui.Spacing();
 
         if (ImGui.Button("Export: Popularity"))
         {
-            var sb = new StringBuilder();
-
-            foreach (string product in products)
-            {
-                int index = 0;
-                foreach (string info in product.Split('\t'))
-                {
-                    if (index == 1)
-                    {
-                        sb.Append(info + "\n");
-                    }
-                    index += 1;
-                }
-            }
-            ImGui.SetClipboardText(sb.ToString());
+            ImGui.SetClipboardText(ColumnBuilder(products, 1, '\t', '\n', false));
         }
 
         ImGui.SameLine();
 
         // Add in the stuff for exporting..
 
-        if (ImGui.Button("Export: Supply/Shift"))
+        if (ImGui.Button("Export: Supply"))
         {
-            if(exportTextVersionValue == true)
+            if (!this.config.ExportTextVersion)
             {
-                var sb = new StringBuilder();
-
-                foreach (string product in products)
-                {
-                    int index = 0;
-                    foreach (string info in product.Split('\t'))
-                    {
-                        if (index == 2)
-                        {
-                            sb.Append(info + ",");
-                        } 
-                        else if (index == 3)
-                        {
-                            sb.Append(info + "\n");
-                        }
-
-                        index += 1;
-                    }
-                }
-                ImGui.SetClipboardText(sb.ToString());
+                ImGui.SetClipboardText(ColumnBuilder(products, 5, '\t', '\n', true));
             } 
             else
             {
-                var sb = new StringBuilder();
+                ImGui.SetClipboardText(ColumnBuilder(products, 2, '\t', '\n', false));
+            }
+        }
 
-                foreach (string product in products)
-                {
-                    int index = 0;
-                    foreach (string info in product.Split('\t'))
-                    {
-                        if (index == 2)
-                        {
-                            sb.Append(supplyMapping[info] + ",");
-                        }
-                        else if (index == 3)
-                        {
-                            sb.Append(shiftMapping[info] + "\n");
-                        }
+        ImGui.SameLine();
 
-                        index += 1;
-                    }
-                }
-
-                ImGui.SetClipboardText(sb.ToString());
+        if (ImGui.Button("Export: Demand Shift"))
+        {
+            if (!this.config.ExportTextVersion)
+            {
+                ImGui.SetClipboardText(ColumnBuilder(products, 6, '\t', '\n', true));
+            }
+            else
+            {
+                ImGui.SetClipboardText(ColumnBuilder(products, 3, '\t', '\n', false));
             }
         }
 
@@ -155,21 +151,7 @@ public class MainWindow : Window, IDisposable
 
         if (ImGui.Button("Export: Predicted Popularity"))
         {
-            var sb = new StringBuilder();
-
-            foreach (string product in products)
-            {
-                int index = 0;
-                foreach (string info in product.Split('\t'))
-                {
-                    if(index == 4)
-                    {
-                        sb.Append(info + "\n");
-                    }
-                    index += 1;
-                }
-            }
-            ImGui.SetClipboardText(sb.ToString());
+            ImGui.SetClipboardText(ColumnBuilder(products, 4, '\t', '\n', false));
         }
 
         ImGui.Spacing();
@@ -192,9 +174,12 @@ public class MainWindow : Window, IDisposable
                 int colIndex = 0;
                 foreach (string info in product.Split('\t'))
                 {
-                    ImGui.TableSetColumnIndex(colIndex);
-                    ImGui.Text(info);
-                    colIndex++;
+                    if (colIndex < 5)
+                    {
+                        ImGui.TableSetColumnIndex(colIndex);
+                        ImGui.Text(info);
+                        colIndex++;
+                    }
                 }
             }
             ImGui.EndTable();

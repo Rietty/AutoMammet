@@ -33,10 +33,15 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>images\icon.png</TargetPath>
         </ContentWithTargetPath>
+        <ContentWithTargetPath Include="AutoMammetValueMapping.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>AutoMammetValueMapping.json</TargetPath>
+        </ContentWithTargetPath>
     </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
       <Private>false</Private>
