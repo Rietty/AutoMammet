@@ -41,8 +41,9 @@ namespace AutoMammet
 
         private void UpdateTable()
         {
-            items = Dalamud.GameData.GetExcelSheet<MJICraftworksObject>((ClientLanguage)this.config.ExportLanguage)!.Select(o => o.Item.Value?.Name.ToString() ?? string.Empty)
-               .Where(s => s.Length > 0).Prepend(string.Empty).ToArray();
+            var itemData = Dalamud.GameData.GetExcelSheet<Item>((ClientLanguage)this.config.ExportLanguage)!;
+
+            items = Dalamud.GameData.GetExcelSheet<MJICraftworksObject>((ClientLanguage)this.config.ExportLanguage)!.Select(o => itemData.GetRow(o.Item.Row)?.Name.ToString() ?? string.Empty).Where(s => s.Length > 0).Prepend(string.Empty).ToArray();
 
             var addon = Dalamud.GameData.GetExcelSheet<Addon>((ClientLanguage)this.config.ExportLanguage)!;
             var addon_english = Dalamud.GameData.GetExcelSheet<Addon>(ClientLanguage.English)!;
