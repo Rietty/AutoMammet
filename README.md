@@ -1,7 +1,9 @@
 # AutoMammet	
 Provides an easy copy and pastable CSV format you can use for island sanctuary spreadsheets. Provides options to export the popularity, future popularity and the current cycle's demand and shift values. Both as words and as numbers on a scale of -2 to 2. This plugin does not provide any calculations for Island Sanctuary, merely an export option for your ingame data. 	
 
-Can use the `/mammet` command to bring up the main window.	
+Can use the `/mammet` command to bring up the main window.
+
+This can be used by installing [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher) and using the Dalamud plugin system.
 
 ![image](https://user-images.githubusercontent.com/35241556/190194570-92bb5b20-d435-4903-81ca-f39a3a55fc36.png)
 
