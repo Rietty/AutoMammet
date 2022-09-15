@@ -3,7 +3,7 @@ Provides an easy copy and pastable CSV format you can use for island sanctuary s
 
 Can use the `/mammet` command to bring up the main window.
 
-This can be used by installing [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher) and using the Dalamud plugin system.
+This can be used by installing [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher) and using the Dalamud plugin system. It is currently in the testing branch.
 
 ![image](https://user-images.githubusercontent.com/35241556/190194570-92bb5b20-d435-4903-81ca-f39a3a55fc36.png)
 
