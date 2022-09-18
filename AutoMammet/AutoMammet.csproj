@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Authors>Rietty</Authors>
     <Company>N/A</Company>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <Description>Provides an easy copy and pastable CSV format you can use for island sanctuary spreadsheets.</Description>
     <Copyright>N/A</Copyright>
-    <PackageProjectUrl>https://github.com/Rietty/Dalamud/tree/main/AutoMammet</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Rietty/AutoMammet</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>
