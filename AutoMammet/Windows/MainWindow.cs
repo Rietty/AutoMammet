@@ -23,7 +23,7 @@ public class MainWindow : Window, IDisposable
         this.SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(400, 50),
-            MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
+            MaximumSize = new Vector2(float.MaxValue, 500)
         };
 
         this.reader = reader;
@@ -159,7 +159,7 @@ public class MainWindow : Window, IDisposable
         ImGui.Spacing();
 
         // Create a new table to show relevant data.
-        if (this.config.ViewDataInTable == true && ImGui.BeginTable("Supply & Demand", 5))
+        if (this.config.ViewDataInTable == true && ImGui.BeginTable("Supply & Demand", 5, ImGuiTableFlags.ScrollY))
         {
             ImGui.TableSetupColumn("Product");
             ImGui.TableSetupColumn("Popularity");
@@ -168,9 +168,15 @@ public class MainWindow : Window, IDisposable
             ImGui.TableSetupColumn("Predicted Popularity");
             ImGui.TableHeadersRow();
 
+            int idx = 0;
+
             foreach (string product in products)
             {
-                ImGui.TableNextRow();
+                if (idx != products.Length - 1)
+                {
+                    ImGui.TableNextRow();
+                }
+
                 int colIndex = 0;
                 foreach (string info in product.Split('\t'))
                 {
@@ -181,6 +187,8 @@ public class MainWindow : Window, IDisposable
                         colIndex++;
                     }
                 }
+
+                idx += 1;
             }
             ImGui.EndTable();
             ImGui.Separator();

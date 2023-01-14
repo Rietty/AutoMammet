@@ -55,6 +55,7 @@ namespace AutoMammet
             supplies_english = Enumerable.Range(15181, 5).Reverse().Select(i => addon_english.GetRow((uint)i)!.Text.ToString()).ToArray();
 
             popularities = Enumerable.Range(15177, 4).Select(i => addon.GetRow((uint)i)!.Text.ToString()).Prepend(string.Empty).ToArray();
+            
             sheet = Dalamud.GameData.GetExcelSheet<MJICraftworksPopularity>()!;
         }
 
@@ -65,19 +66,20 @@ namespace AutoMammet
             if (instance == IntPtr.Zero)
                 return string.Empty;
 
-            var currentPopularity = sheet.GetRow(*(byte*)(instance + 0x2E8))!;
-            var nextPopularity = sheet.GetRow(*(byte*)(instance + 0x2E9))!;
+            var currentPopularity = sheet.GetRow(*(byte*)(instance + 0x270))!;
+            var nextPopularity = sheet.GetRow(*(byte*)(instance + 0x271))!;
 
             var sb = new StringBuilder(64 * 128);
             for (var i = 1; i < items.Count; ++i)
             {
+                var supply = *(byte*)(instance + 0x272 + i);
+                var shift = supply & 0x7;
+                supply = (byte)(supply >> 4);
+
                 sb.Append(items[i]); // 0
                 sb.Append('\t');
                 sb.Append(GetPopularity(currentPopularity, i)); // 1
                 sb.Append('\t');
-                var supply = *(byte*)(instance + 0x2EA + i);
-                var shift = supply & 0x7;
-                supply = (byte)(supply >> 4);
                 sb.Append(supplies[supply]); // 2
                 sb.Append('\t');
                 sb.Append(shifts[shift]); // 3
@@ -95,8 +97,7 @@ namespace AutoMammet
 
         private string GetPopularity(MJICraftworksPopularity pop, int idx)
         {
-            var val = (byte?)pop.GetType().GetProperty($"Unknown{idx}", BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty)?.GetValue(pop, null);
-            return val == null ? string.Empty : popularities[val.Value];
+            return popularities[(int)pop.Popularity[idx].Row].ToString();
         }
     }
 }
