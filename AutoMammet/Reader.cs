@@ -66,13 +66,13 @@ namespace AutoMammet
             if (instance == IntPtr.Zero)
                 return string.Empty;
 
-            var currentPopularity = sheet.GetRow(*(byte*)(instance + 0x270))!;
-            var nextPopularity = sheet.GetRow(*(byte*)(instance + 0x271))!;
+            var currentPopularity = sheet.GetRow(*(byte*)(instance + 0x2B8))!;
+            var nextPopularity = sheet.GetRow(*(byte*)(instance + 0x2B9))!;
 
             var sb = new StringBuilder(64 * 128);
-            for (var i = 1; i < items.Count; ++i)
+            for (var i = 2; i < 74; ++i) // Hardcoded 72 items currently in list. More items are possible, but will need to adjust in future.
             {
-                var supply = *(byte*)(instance + 0x272 + i);
+                var supply = *(byte*)(instance + 0x2BA + i);
                 var shift = supply & 0x7;
                 supply = (byte)(supply >> 4);
 
