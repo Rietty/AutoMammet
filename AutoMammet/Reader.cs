@@ -70,7 +70,7 @@ namespace AutoMammet
             var nextPopularity = sheet.GetRow(*(byte*)(instance + 0x2B9))!;
 
             var sb = new StringBuilder();
-            for (var i = 1; i < 73; ++i) // Hardcoded 72 items currently in list. More items are possible, but will need to adjust in future.
+            for (var i = 1; i < 72; ++i) // Hardcoded 72 items currently in list. More items are possible, but will need to adjust in future.
             {
                 var supply = *(byte*)(instance + 0x2BA + i);
                 var shift = supply & 0x7;
