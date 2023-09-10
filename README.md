@@ -1,4 +1,6 @@
-# AutoMammet	
+# AutoMammet
+[![Download count](https://img.shields.io/endpoint?url=https://qzysathwfhebdai6xgauhz4q7m0mzmrf.lambda-url.us-east-1.on.aws/AutoMammet)](https://github.com/Rietty/AutoMammet)
+
 Provides an easy copy and pastable CSV format you can use for island sanctuary spreadsheets. Provides options to export the popularity, future popularity and the current cycle's demand and shift values. Both as words and as numbers on a scale of -2 to 2. This plugin does not provide any calculations for Island Sanctuary, merely an export option for your ingame data. 	
 
 Can use the `/mammet` command to bring up the main window.
